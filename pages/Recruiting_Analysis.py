@@ -10,7 +10,7 @@ import plotly.express as px
 
 
 st.sidebar.success("☝️ Check out these bluebox tools.☝️")
-st.header("Call Audit")
+st.header("Recruiting Analytics")
 st.write("Goal: Quickly review an offices success via recruiting source.")
 st.write("Tip: Export the Activity report as a CSV, drag it into the box, and go!")
 
