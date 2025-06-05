@@ -20,8 +20,11 @@ st.text("Use an exported call summary to see which companies are being called on
 st.subheader("Sales Coach 🤓")
 st.text("Use an exported call summary to analyze the overall success of a sales representative, or an office, with a few additional sales metrics thrown into the game. Great high level overview.")
 
-st.subheader("Recruiting Analysis 🤓")
+st.subheader("Recruiting Analysis ❗")
 st.text("Use an exported activity report to understand the recruiting themses in an office.")
 
 st.subheader("Sales Rep Weekly Calls Report Card 🔎")
 st.text("Use an exported call summary, over multiple weeks, to analyze trends in sales rep activities, and give you an easy to read report card on their progress, against the Express Power Plays.")
+
+st.subheader("Turnover Analysis 🎭")
+st.text("Use an exported activity report to understand the recruiting themses in an office.")

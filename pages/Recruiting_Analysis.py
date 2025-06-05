@@ -69,9 +69,9 @@ if len(dfs)>0:
 
     df = df.iloc[:, 1:]  # Keep all rows, drop the first column
 
-    df["Applied"]=df["Applied"].astype(int)
-    df["Eligible"]=df["Eligible"].astype(int)
-    df["Assigned"]=df["Assigned"].astype(int)
+    df["Applied"] = pd.to_numeric(df["Applied"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
+    df["Eligible"] = pd.to_numeric(df["Eligible"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
+    df["Assigned"] = pd.to_numeric(df["Assigned"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
     df["Source"]=df["Source"].astype(str)
 
     df["Placement Ratio"]=round(df["Assigned"]/df["Applied"]*100,2)
@@ -119,6 +119,5 @@ if len(dfs)>0:
     )
 
     st.altair_chart(c2)
-
 
 
