@@ -94,7 +94,6 @@ if len(dfs)>0:
     #Adding in Analytics
     df["Percentage"] = df["Number"] / df["Number"].sum() * 100
     df = pd.merge(df, df_reason, on="Assignment Status", how="left")
-
     df_reason = df.groupby("Category", as_index=False).agg({
         "Number":"sum",
         "Percentage":"sum"
@@ -104,8 +103,7 @@ if len(dfs)>0:
 
     ### Visualizations
 
-    #Data Frame Visualizations
-
+    #General Reasons for Turnover
     st.subheader("General Reasons for Turnover (%)")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -122,7 +120,7 @@ if len(dfs)>0:
 
     st.altair_chart(c)
 
-
+    #Data Frame Visualizations
     st.subheader("Specific Reasons for Turnover")
     st.dataframe(df)
 
