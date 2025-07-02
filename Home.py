@@ -8,6 +8,10 @@ import altair as alt
 
 st.sidebar.success("☝️ Check out these bluebox tools.☝️")
 
+st.header("Updates V 0.1")
+st.text("- Added multi-sheet functionality to combine offices/sales reps into a single dataframe. AKA, you can upload multiple sheets at the same time.")
+st.text("- Added Turnover and Recruiting Analysis tools that utilize an exported activity report.")
+
 st.header("Welcome to Bluebox Developer Tools!")
 st.text("This is an updated directory, using cloud tools, to automate some developer reponsibilities. This code is maintained by Nick Winnenberg. Please email me or send me a teams message with any questions.")
 

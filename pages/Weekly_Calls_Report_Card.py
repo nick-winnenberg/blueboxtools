@@ -45,7 +45,7 @@ for name, df in files_dict.items():
     dfs.append(df)
 
 if len(dfs)>0:
-    df = dfs[0]
+    df = pd.concat(dfs, ignore_index=True)
     df['Completed Date'] = pd.to_datetime(df['Completed Date'], errors="coerce")
     df["iso week"] = df["Completed Date"].dt.isocalendar().week
     df['Year Billed'] = df ['Completed Date'].dt.year
