@@ -66,6 +66,15 @@ if len(dfs)>0:
     weekly.insert(0,"Tracked Week", range(1,1+len(weekly)))
 
     company_contacts = df.groupby("Company Name").agg(All_Calls=("Results",'size'),Clients=("Client Flag",'mean')).sort_values(by=['All_Calls'], ascending=False)
+    
+    user = df.groupby("Completed By").agg(
+        All_Calls=("Results",'size'),
+        DM_Calls=("dms","sum"),
+        APT_Calls=("Apt Flag","sum"),
+        Client_Ratio = ("Client Flag","mean")
+        ).sort_values(by=['All_Calls'], ascending=False)
+    user["Percent of calls"]=round(user["All_Calls"]/sum(user["All_Calls"])*100,2)
+    user = user.reset_index()
 
     week_count = len(weekly)
     dm_count = (df["dms"] == True).sum()
@@ -135,8 +144,8 @@ if len(dfs)>0:
     st.subheader("Appointment Calls")
     st.bar_chart(weekly, x="Tracked Week", y="Appointment_Calls")
 
-    st.subheader("Weekly Calls Table")
-    st.dataframe(weekly)
+    #st.subheader("Weekly Calls Table")
+    #st.dataframe(weekly)
 
 
     st.subheader("Appointments")
@@ -144,3 +153,21 @@ if len(dfs)>0:
     apts = apts[["Completed Date","Company Name","Results"]]
     #apts = apts.drop(columns=["Completed Date","Date First Bill","Territory","Last Contacted","Phone","Date Last Bill","Call Type","Grade","Day Completed","Year Billed","Never Billed","Apt Set","MPC","DM Count","Apt Count"])
     st.dataframe(apts)
+
+    st.subheader("User Scoreboard")
+    st.dataframe(user)
+
+    st.subheader("All Calls")
+    c=(
+        alt.Chart(user).mark_bar().encode(
+            alt.X('All_Calls'),
+            alt.Y('Completed By',sort="-x")
+            )
+        )
+    c
+
+
+
+
+
+ 

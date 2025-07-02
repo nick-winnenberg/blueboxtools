@@ -15,9 +15,6 @@ st.text("- Added Turnover and Recruiting Analysis tools that utilize an exported
 st.header("Welcome to Bluebox Developer Tools!")
 st.text("This is an updated directory, using cloud tools, to automate some developer reponsibilities. This code is maintained by Nick Winnenberg. Please email me or send me a teams message with any questions.")
 
-st.subheader("Call Audit ❓")
-st.text("Use an exported call summary to see have a quick glance at the validitiy of an offices/sales representatives calls.")
-
 st.subheader("Client Pipeline 💸")
 st.text("Use an exported call summary to see which companies are being called on, and where that are in the pipeline (DM Connections, Appointments, etc.) It's a quick and easy way to have a conversation about a sales representatives current funnel")
 
@@ -31,4 +28,4 @@ st.subheader("Sales Rep Weekly Calls Report Card 🔎")
 st.text("Use an exported call summary, over multiple weeks, to analyze trends in sales rep activities, and give you an easy to read report card on their progress, against the Express Power Plays.")
 
 st.subheader("Turnover Analysis 🎭")
-st.text("Use an exported activity report to understand the recruiting themses in an office.")
+st.text("Use an exported activity report to understand the recruiting themes in an office.")
