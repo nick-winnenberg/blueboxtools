@@ -69,9 +69,12 @@ if len(dfs)>0:
     st.subheader("Company Contacts")
     st.dataframe(clients)
 
-    apt_set_audit = df[df["Apt Flag"]].sort_values("Company Name")
+
     st.subheader("Appointments")
-    st.dataframe(apt_set_audit)
+    apts = df[df["Call Type"]== "Appointment call - face to face"]
+    apts = apts[["Completed Date","Company Name","Results"]]
+    #apts = apts.drop(columns=["Completed Date","Date First Bill","Territory","Last Contacted","Phone","Date Last Bill","Call Type","Grade","Day Completed","Year Billed","Never Billed","Apt Set","MPC","DM Count","Apt Count"])
+    st.dataframe(apts)
 
 
 
