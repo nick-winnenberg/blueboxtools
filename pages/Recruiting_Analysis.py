@@ -93,7 +93,7 @@ for name, df in files_dict.items():
     dfs.append(df)
 
 if len(dfs)>0:
-    df = dfs[0]
+    df = pd.concat(dfs, ignore_index=True)
     
     df = df.drop(df.index[:49])
     

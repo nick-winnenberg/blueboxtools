@@ -71,7 +71,7 @@ for name, df in files_dict.items():
     dfs.append(df)
 
 if len(dfs)>0:
-    df = dfs[0]
+    df = pd.concat(dfs, ignore_index=True)
 
 ## Selecting the specific area to analyze, using dynamic searching.
     starting_index = df[df.eq("Assignment Status").any(axis=1)].index 

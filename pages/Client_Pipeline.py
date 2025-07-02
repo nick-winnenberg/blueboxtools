@@ -47,7 +47,7 @@ for name, df in files_dict.items():
 
 #Real Code
 if len(dfs)>0:
-    df = dfs[0]
+    df = pd.concat(dfs, ignore_index=True)
     company_pipeline = df[["Company Name","Completed Date","Call Type","Results"]]
     
     df['Discovery Flag'] = df['Call Type'].apply(lambda x: 1 if 'Discovery call - face to face' else 0)
