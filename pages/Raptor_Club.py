@@ -75,7 +75,7 @@ if len(dfs)>0:
     df["Projected GM"] =  df["AVG GM Generated"] * 52
     df["Projected Clients"] = df["AVG New Clients"] * 52
 
-    df_weekly = df[["Rank","First Name","Last Name","Primary Office #","Developer","Avg Sales Calls","Avg DM Calls","Avg Apts","Avg MPC Calls","AVG GM Generated","AVG New Clients","Projected GM","Projected Clients"]]
+    df_weekly = df[["Rank","First Name","Last Name","Primary Office #","Developer","Zone","Avg Sales Calls","Avg DM Calls","Avg Apts","Avg MPC Calls","AVG GM Generated","AVG New Clients","Projected GM","Projected Clients"]]
 
     top25 = df_weekly[df_weekly["Rank"]<25]
     top50 = df_weekly[df_weekly["Rank"]<50]
@@ -105,6 +105,7 @@ if len(dfs)>0:
     col4.metric("GM/Week", round(top100["AVG GM Generated"].mean(),0) if df["AVG GM Generated"].count() > 0 else 0)
 
     developer_list = sorted(df["Developer"].dropna().unique())
+    zone_list = sorted(df["Zone"].dropna().unique())
 
     st.subheader("Developer Region")
     option = st.selectbox(
@@ -143,11 +144,60 @@ if len(dfs)>0:
         )
     c
 
+    st.subheader("Zone")
+    option2 = st.selectbox(
+    "Which Region?",
+    (zone_list),
+    )
+
+    st.write("You selected:", option2)
+
+    
+
+    if option != None:
+        zone_sr = df_weekly[df_weekly["Zone"]==option2]
+        zone_sr = zone_sr.drop(columns=["Zone"])
+
+        group_cols2 = ["First Name", "Last Name"]  # or a combined "Sales Rep Name" column if you have one
+
+        df_grouped2 = zone_sr.groupby(group_cols2, as_index=False).agg({
+            "Primary Office #": "first",  # assuming it's the same across duplicates
+            "Avg Sales Calls": "sum",
+            "Avg DM Calls": "sum",
+            "Avg Apts": "sum",
+            "Avg MPC Calls": "sum",
+            "AVG GM Generated": "sum",
+            "AVG New Clients": "sum",
+            "Projected GM": "sum",
+            "Projected Clients": "sum"
+        })
+
         
 
+        
+        df_grouped2
+        df_grouped2 = df_grouped2.fillna(0)
+
+        df_grouped2["Avg DM Calls"] = df_grouped2["Avg DM Calls"].astype("float")
+        df_grouped2["Avg Apts"] = df_grouped2["Avg Apts"].astype("float")
+        df_grouped2["AVG New Clients"] = df_grouped2["AVG New Clients"].astype("float")
+        df_grouped2["AVG GM Generated"] = df_grouped2["AVG GM Generated"].astype("float")
 
 
+        st.subheader(option2)
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("DM Calls", round(df_grouped2["Avg DM Calls"].mean(),0) if df["Avg DM Calls"].count() > 0 else 0)
+        col2.metric("Apt Calls", round(df_grouped2["Avg Apts"].mean(),2) if df["Avg Apts"].count() > 0 else 0)
+        col3.metric("Clients per Week", round(df_grouped2["AVG New Clients"].mean(),2) if df["AVG New Clients"].count() > 0 else 0)
+        col4.metric("GM/Week", round(df_grouped2["AVG GM Generated"].mean(),0) if df["AVG GM Generated"].count() > 0 else 0)
+        
+        st.text("Projected GM (Straight Line, I know, not ideal.)")
+        c=(
+        alt.Chart(df_grouped2).mark_bar().encode(
+            alt.X('Projected GM'),
+            alt.Y('First Name',sort="-x")
+            )
+        )
+    c
 
-
-    
-    
+   
