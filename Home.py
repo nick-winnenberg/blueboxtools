@@ -35,3 +35,9 @@ st.text("Use an exported call summary to analyze the overall success of a sales 
 st.subheader("Sales Rep Weekly Calls Report Card 🔎")
 st.text("Use an exported call summary, over multiple weeks, to analyze trends in sales rep activities, and give you an easy to read report card on their progress, against the Express Power Plays.")
 
+st.markdown("##")
+
+st.subheader("Other Reports",divider=True)
+st.subheader("Raptor Club 🦅")
+st.text("Use the Weekly Raptor Club Email to see where your sales reps compare to the weekly averages of the top-50 and top-100.")
+
