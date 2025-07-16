@@ -36,6 +36,8 @@ st.subheader("Sales Rep Weekly Calls Report Card 🔎")
 st.text("Use an exported call summary, over multiple weeks, to analyze trends in sales rep activities, and give you an easy to read report card on their progress, against the Express Power Plays.")
 st.subheader("Multi User Client Report🏦")
 st.text("Use an exported call summary, to analyze who all is calling on individual companies. Thanks Kris, Tony, and Brian!")
+st.subheader("MPC Report")
+st.text("Use an exported call summary, to analyze who is having MPC connections in an office!")
 
 st.markdown("##")
 
