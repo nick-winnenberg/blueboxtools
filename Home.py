@@ -38,6 +38,8 @@ st.subheader("Multi User Client Report🏦")
 st.text("Use an exported call summary, to analyze who all is calling on individual companies. Thanks Kris, Tony, and Brian!")
 st.subheader("MPC Report")
 st.text("Use an exported call summary, to analyze who is having MPC connections in an office!")
+st.subheader("Touch to Close")
+st.text("Use a HUGE call summary (seriously, export EVERYTHING, to see how many touches it takes to land some of the major clients. Thanks Cherri!")
 
 st.markdown("##")
 
