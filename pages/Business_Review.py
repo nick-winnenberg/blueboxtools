@@ -36,8 +36,8 @@ months = ["January","February","March","April","May","June","July","August","Sep
 df_reason = pd.DataFrame(data, columns=["Reason", "Category"])
 
 st.sidebar.success("☝️ Check out these bluebox tools.☝️")
-st.header("Turnover Analytics")
-st.write("Goal: Quickly assess an offices turnover..")
+st.header("Business Review")
+st.write("Goal: Quickly see what's going on at a specific client.")
 st.write("Tip: Export the Activity report as a CSV, drag it into the box, and go!")
 
 files_dict = {}
