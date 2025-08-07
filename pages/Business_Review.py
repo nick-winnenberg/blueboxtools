@@ -38,7 +38,7 @@ df_reason = pd.DataFrame(data, columns=["Reason", "Category"])
 st.sidebar.success("☝️ Check out these bluebox tools.☝️")
 st.header("Business Review")
 st.write("Goal: Quickly see what's going on at a specific client.")
-st.write("Tip: Export the Activity report as a CSV, drag it into the box, and go!")
+st.write("Tip: Export the Business Review Report from a client record as a CSV, drag it into the box, and go!")
 
 files_dict = {}
 
