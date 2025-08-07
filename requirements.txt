@@ -1,3 +1,5 @@
 openpyxl
 tabulate
 plotly
+seaborn
+matplotlib
