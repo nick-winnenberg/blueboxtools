@@ -67,37 +67,39 @@ if uploaded_files:
 
 # Display the loaded dataframes
 dfs = []
+scubbed_dfs = []
 for name, df in files_dict.items():
     dfs.append(df)
 
 if len(dfs)>0:
-    df = pd.concat(dfs, ignore_index=True)
+    for df in dfs:
+        df = pd.concat(dfs, ignore_index=True)
 
-## Selecting the specific area to analyze, using dynamic searching.
-    starting_index = df[df.eq("Assignment Status").any(axis=1)].index 
-    
-    #Selecting only the desired turnover info
-    if not starting_index.empty:
-        df = df.iloc[starting_index[0]:] 
-    df = df.drop(df.columns[[0,1,3,4,5,6,8,9,10,11,12,13]], axis=1)
+    ## Selecting the specific area to analyze, using dynamic searching.
+        starting_index = df[df.eq("Assignment Status").any(axis=1)].index 
+        
+        #Selecting only the desired turnover info
+        if not starting_index.empty:
+            df = df.iloc[starting_index[0]:] 
+        df = df.drop(df.columns[[0,1,3,4,5,6,8,9,10,11,12,13]], axis=1)
 
-    #Resetting the index to make it formated (titles, etc.)
-    df = df.reset_index()
-    df = df.drop(df.columns[[0]], axis=1)
-    df.columns = df.iloc[0]
-    df = df[1:].reset_index(drop=True)
+        #Resetting the index to make it formated (titles, etc.)
+        df = df.reset_index()
+        df = df.drop(df.columns[[0]], axis=1)
+        df.columns = df.iloc[0]
+        df = df[1:].reset_index(drop=True)
 
-    #Converting str to numbers for analytics
-    df["Number"] = pd.to_numeric(df["Number"], errors="coerce").fillna(0).astype(int)
-    df["Percentage"] = df["Number"] / df["Number"].sum() * 100
+        #Converting str to numbers for analytics
+        df["Number"] = pd.to_numeric(df["Number"], errors="coerce").fillna(0).astype(int)
+        df["Percentage"] = df["Number"] / df["Number"].sum() * 100
 
-    #Adding in Analytics
-    df["Percentage"] = df["Number"] / df["Number"].sum() * 100
-    df = pd.merge(df, df_reason, on="Assignment Status", how="left")
-    df_reason = df.groupby("Category", as_index=False).agg({
-        "Number":"sum",
-        "Percentage":"sum"
-    }) 
+        #Adding in Analytics
+        df["Percentage"] = df["Number"] / df["Number"].sum() * 100
+        df = pd.merge(df, df_reason, on="Assignment Status", how="left")
+        df_reason = df.groupby("Category", as_index=False).agg({
+            "Number":"sum",
+            "Percentage":"sum"
+        })
     
 
 
