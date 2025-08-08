@@ -89,56 +89,61 @@ if uploaded_files:
 
 # Display the loaded dataframes
 dfs = []
+scrubbed_dfs = []
 for name, df in files_dict.items():
     dfs.append(df)
 
 if len(dfs)>0:
-    df = pd.concat(dfs, ignore_index=True)
+    for df in dfs:
     
-    df = df.drop(df.index[:49])
-    
-    ind_for_drop = [0,1,3,4,7,9,10,11,12,13]
-    col_for_drop = df.columns[ind_for_drop]
-    df = df.drop(columns=col_for_drop)
-    df = df.reset_index()
+        df = df.drop(df.index[:49])
+        
+        ind_for_drop = [0,1,3,4,7,9,10,11,12,13]
+        col_for_drop = df.columns[ind_for_drop]
+        df = df.drop(columns=col_for_drop)
+        df = df.reset_index()
 
-    index_to_drop = df[df.eq("Assignment Status").any(axis=1)].index
+        index_to_drop = df[df.eq("Assignment Status").any(axis=1)].index
 
-    if not index_to_drop.empty:
-        df = df.iloc[:index_to_drop[0]]
+        if not index_to_drop.empty:
+            df = df.iloc[:index_to_drop[0]]
 
-    df = df.fillna(0)
+        df = df.fillna(0)
 
-    df.columns = df.iloc[0]
+        df.columns = df.iloc[0]
 
-    df = df[1:].reset_index(drop=True)
+        df = df[1:].reset_index(drop=True)
 
-    df = df.iloc[:, 1:]  # Keep all rows, drop the first column
+        df = df.iloc[:, 1:]  # Keep all rows, drop the first column
 
-    df = pd.merge(df, df_source, on="Source", how="left")
+        df = pd.merge(df, df_source, on="Source", how="left")
 
-    df["Applied"] = pd.to_numeric(df["Applied"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
-    df["Eligible"] = pd.to_numeric(df["Eligible"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
-    df["Assigned"] = pd.to_numeric(df["Assigned"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
-    df["Source"]=df["Source"].astype(str)
+        df["Applied"] = pd.to_numeric(df["Applied"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
+        df["Eligible"] = pd.to_numeric(df["Eligible"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
+        df["Assigned"] = pd.to_numeric(df["Assigned"].str.replace(",", ""), errors="coerce").fillna(0).astype(int)
+        df["Source"]=df["Source"].astype(str)
 
-    df["Placement Ratio"]=round(df["Assigned"]/df["Applied"]*100,2)
-    df["Recruiting Power"] = df["Placement Ratio"] * df["Applied"]
-    df["Recruiting Power Ratio"] = round(df["Recruiting Power"] / df["Recruiting Power"].sum() *100,2)
-    df["Unassigned"]=df["Applied"]-df["Assigned"]
+        df["Placement Ratio"]=round(df["Assigned"]/df["Applied"]*100,2)
+        df["Recruiting Power"] = df["Placement Ratio"] * df["Applied"]
+        df["Recruiting Power Ratio"] = round(df["Recruiting Power"] / df["Recruiting Power"].sum() *100,2)
+        df["Unassigned"]=df["Applied"]-df["Assigned"]
 
-    df = df.sort_values(by="Recruiting Power",ascending=False)
+        df = df.sort_values(by="Recruiting Power",ascending=False)
 
-    ## Creating a category based DF 
-    df_category = df.groupby("Source Category", as_index=False).agg({
-        "Applied":"sum",
-        "Eligible":"sum",
-        "Assigned":"sum",
-    }) 
+        ## Creating a category based DF 
+        df_category = df.groupby("Source Category", as_index=False).agg({
+            "Applied":"sum",
+            "Eligible":"sum",
+            "Assigned":"sum",
+        }) 
 
-    df_category["Placement Ratio"] = round(df_category["Assigned"]/df_category["Applied"]*100,2)
-    df_category["Percent of Total Applications"] = round(df_category["Applied"]/df_category["Applied"].sum()*100,2)
-    df_category["Percent of Total Placements"] = round(df_category["Assigned"]/df_category["Assigned"].sum()*100,2)
+        df_category["Placement Ratio"] = round(df_category["Assigned"]/df_category["Applied"]*100,2)
+        df_category["Percent of Total Applications"] = round(df_category["Applied"]/df_category["Applied"].sum()*100,2)
+        df_category["Percent of Total Placements"] = round(df_category["Assigned"]/df_category["Assigned"].sum()*100,2)
+
+        scrubbed_dfs.append(df)
+
+    df = pd.concat(scrubbed_dfs, ignore_index=True)
 
     ## Visualizations
     st.header("Recruiting Sources")
