@@ -66,6 +66,7 @@ if len(dfs)>0:
     df.loc[df['Hire Date Year'] < this_year, "Weeks Tracked"] = this_week
 
     df = df.fillna(0)
+    df["Name ID"] = df["First Name"] + " " + df["Last Name"]
     df["Avg Sales Calls"] = round(df["Total Sales Calls"] / df["Weeks Tracked"],0)
     df["Avg DM Calls"] = round(df["Total DM Calls"] / df["Weeks Tracked"],0)
     df["Avg Apts"] = round(df["Total Appointments"] / df["Weeks Tracked"],0)
@@ -75,7 +76,7 @@ if len(dfs)>0:
     df["Projected GM"] =  df["AVG GM Generated"] * 52
     df["Projected Clients"] = df["AVG New Clients"] * 52
 
-    df_weekly = df[["Rank","First Name","Last Name","Primary Office #","Developer","Zone","Avg Sales Calls","Avg DM Calls","Avg Apts","Avg MPC Calls","AVG GM Generated","AVG New Clients","Projected GM","Projected Clients"]]
+    df_weekly = df[["Rank","First Name","Last Name","Name ID","Primary Office #","Developer","Zone","Avg Sales Calls","Avg DM Calls","Avg Apts","Avg MPC Calls","AVG GM Generated","AVG New Clients","Projected GM","Projected Clients"]]
 
     top25 = df_weekly[df_weekly["Rank"]<25]
     top50 = df_weekly[df_weekly["Rank"]<50]
@@ -119,10 +120,11 @@ if len(dfs)>0:
         developer_sr = df_weekly[df_weekly["Developer"]==option]
         developer_sr = developer_sr.drop(columns=["Developer"])
 
-        group_cols = ["First Name", "Last Name"]  # or a combined "Sales Rep Name" column if you have one
+        group_cols = ["Name ID"]  # or a combined "Sales Rep Name" column if you have one
 
         df_grouped = developer_sr.groupby(group_cols, as_index=False).agg({
             "Primary Office #": "first",  # assuming it's the same across duplicates
+            "Name ID": "first",
             "Avg Sales Calls": "sum",
             "Avg DM Calls": "sum",
             "Avg Apts": "sum",
@@ -139,7 +141,7 @@ if len(dfs)>0:
         c=(
         alt.Chart(df_grouped).mark_bar().encode(
             alt.X('Projected GM'),
-            alt.Y('First Name',sort="-x")
+            alt.Y('Name ID',sort="-x")
             )
         )
     c
@@ -158,10 +160,11 @@ if len(dfs)>0:
         zone_sr = df_weekly[df_weekly["Zone"]==option2]
         zone_sr = zone_sr.drop(columns=["Zone"])
 
-        group_cols2 = ["First Name", "Last Name"]  # or a combined "Sales Rep Name" column if you have one
+        group_cols2 = ["Name ID"]  # or a combined "Sales Rep Name" column if you have one
 
         df_grouped2 = zone_sr.groupby(group_cols2, as_index=False).agg({
             "Primary Office #": "first",  # assuming it's the same across duplicates
+            "Name ID": "first",
             "Avg Sales Calls": "sum",
             "Avg DM Calls": "sum",
             "Avg Apts": "sum",
@@ -195,7 +198,7 @@ if len(dfs)>0:
         c=(
         alt.Chart(df_grouped2).mark_bar().encode(
             alt.X('Projected GM'),
-            alt.Y('First Name',sort="-x")
+            alt.Y('Name ID',sort="-x")
             )
         )
     c
